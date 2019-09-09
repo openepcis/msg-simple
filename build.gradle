@@ -52,6 +52,8 @@ apply(plugin: "eclipse");
 
 apply(from: "project.gradle");
 
+group = "com.github.java-json-tools";
+
 /*
  * Repositories to use
  */
@@ -80,6 +82,17 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 }
 
 /*
+ * Lint all the things!
+ */
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:all"
+        }
+    }
+}
+
+/*
  * Javadoc: we need to tell where the overview.html is, it will not pick it up
  * automatically...
  */
@@ -99,13 +112,15 @@ artifacts {
     archives javadocJar;
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = "1.11";
+wrapper {
+    gradleVersion = "5.6.2";
     distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
 }
 
-task pom << {
-    pom {}.writeTo("${projectDir}/pom.xml");
+task pom {
+    doLast {
+        pom {}.writeTo("${projectDir}/pom.xml");
+    }
 }
 
 /*
@@ -113,25 +128,27 @@ task pom << {
  */
 
 project.ext {
-    gitrwscm = sprintf("git@github.com:fge/%s", name);
-    gitroscm = sprintf("https://github.com/fge/%s.git", name);
-    projectURL = sprintf("https://github.com/fge/%s", name);
+    description = "A lightweight, UTF-8 capable, printf() capable alternative to Java's ResourceBundle";
+    scmUrl = sprintf("git@github.com:java-json-tools/%s.git", name)
+    projectURL = sprintf("https://github.com/java-json-tools/%s", name);
     sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
     sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/";
 };
 
-task checkSigningRequirements << {
-    def requiredProperties = [ "sonatypeUsername", "sonatypePassword" ];
-    def noDice = false;
-    requiredProperties.each {
-        if (project.properties[it] == null) {
-            noDice = true;
-            System.err.printf("property \"%s\" is not defined!")
+task checkSigningRequirements {
+    doLast {
+        def requiredProperties = [ "sonatypeUsername", "sonatypePassword" ];
+        def noDice = false;
+        requiredProperties.each {
+            if (project.properties[it] == null) {
+                noDice = true;
+                System.err.printf("property \"%s\" is not defined!")
+            }
         }
+        if (noDice)
+            throw new IllegalStateException("missing required properties for " +
+                "upload");
     }
-    if (noDice)
-        throw new IllegalStateException("missing required properties for " +
-            "upload");
 }
 
 uploadArchives {
@@ -167,15 +184,15 @@ uploadArchives {
     uploadArchives.repositories.mavenDeployer
 ]*.pom*.whenConfigured { pom ->
     pom.project {
-        name "${name}";
+        name "${project.name}";
         packaging "jar";
-        description "${description}";
+        description "${project.ext.description}";
         url "${projectURL}";
 
         scm {
-            url "${gitrwscm}";
-            connection "${gitrwscm}";
-            developerConnection "${gitroscm}";
+            url "${scmUrl}";
+            connection "${scmUrl}";
+            developerConnection "scm:git:${scmUrl}";
         }
 
         licenses {
@@ -193,9 +210,9 @@ uploadArchives {
 
         developers {
             developer {
-                id "fge";
-                name "Francis Galiegue";
-                email "fgaliegue@gmail.com";
+                id "huggsboson";
+                name "John Huffaker";
+                email "jhuffaker+java-json-tools@gmail.com";
             }
         }
     }
