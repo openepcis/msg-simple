@@ -1,3 +1,8 @@
+[![License LGPLv3][LGPLv3 badge]][LGPLv3]
+[![License ASL 2.0][ASL 2.0 badge]][ASL 2.0]
+[![Build Status][Travis badge]][Travis]
+[![Maven Central][Maven Central badge]][Maven]
+
 ## Read me first
 
 This project, as of version 1.0, is licensed under both LGPLv3 and ASL 2.0. See
@@ -37,7 +42,7 @@ For Gradle:
 
 ```gradle
 dependencies {
-    compile(group: "com.github.fge", name: "msg-simple", version: "yourVersionHere");
+    compile(group: "com.github.java-json-tools", name: "msg-simple", version: "yourVersionHere");
 }
 ```
 
@@ -45,7 +50,7 @@ For Maven:
 
 ```xml
 <dependency>
-    <groupId>com.github.fge</groupId>
+    <groupId>com.github.java-json-tools</groupId>
     <artifactId>msg-simple</artifactId>
     <version>your-version-here</version>
 </dependency>
@@ -64,4 +69,13 @@ This library currently has the following features:
 
 The roadmap for future versions can be found [here](https://github.com/fge/msg-simple/wiki/Roadmap). Feature requests are of course
 welcome!
+
+[LGPLv3 badge]: https://img.shields.io/:license-LGPLv3-blue.svg
+[LGPLv3]: http://www.gnu.org/licenses/lgpl-3.0.html
+[ASL 2.0 badge]: https://img.shields.io/:license-Apache%202.0-blue.svg
+[ASL 2.0]: http://www.apache.org/licenses/LICENSE-2.0.html
+[Travis Badge]: https://api.travis-ci.org/java-json-tools/msg-simple.svg?branch=master
+[Travis]: https://travis-ci.org/java-json-tools/msg-simple
+[Maven Central badge]: https://img.shields.io/maven-central/v/com.github.java-json-tools/msg-simple.svg
+[Maven]: https://search.maven.org/artifact/com.github.java-json-tools/msg-simple
 
