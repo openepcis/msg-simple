@@ -285,11 +285,11 @@ public final class LoadingMessageSourceProviderTest
             .thenReturn(source);
 
         final MessageSourceProvider provider = builder.setLoader(loader)
-            .setExpiryTime(10L, TimeUnit.MILLISECONDS)
+            .setExpiryTime(100L, TimeUnit.MILLISECONDS)
             .setDefaultSource(defaultSource).build();
 
         final MessageSource before = provider.getMessageSource(Locale.ROOT);
-        TimeUnit.MILLISECONDS.sleep(50L);
+        TimeUnit.MILLISECONDS.sleep(500L);
         final MessageSource after = provider.getMessageSource(Locale.ROOT);
 
         verify(loader, times(2)).load(Locale.ROOT);
