@@ -20,7 +20,8 @@
 /*
  * Project-specific settings. Unfortunately we cannot put the name in there!
  */
-group = "com.github.java-json-tools";version = "1.2-SNAPSHOT";
+group = "com.github.java-json-tools";
+version = "1.2-SNAPSHOT";
 sourceCompatibility = JavaVersion.VERSION_1_6;
 targetCompatibility = JavaVersion.VERSION_1_6; // defaults to sourceCompatibility
 
