@@ -36,6 +36,8 @@ See [here](https://github.com/fge/msg-simple/wiki/Examples) for sample API usage
 
 ## Downloads and Maven artifact
 
+Versions before 1.2 are available at `groupId` `com.github.fge`.
+
 You can download the jar directly on [Bintray](https://bintray.com/fge/maven/msg-simple).
 
 For Gradle:
