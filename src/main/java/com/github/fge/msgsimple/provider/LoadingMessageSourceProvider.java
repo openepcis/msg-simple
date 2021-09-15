@@ -19,8 +19,13 @@
 
 package com.github.fge.msgsimple.provider;
 
+import com.chibchasoft.vertx.util.concurrent.ContextExecutorService;
 import com.github.fge.msgsimple.InternalBundle;
 import com.github.fge.msgsimple.source.MessageSource;
+import io.vertx.core.Context;
+import io.vertx.core.Vertx;
+
+import javax.inject.Inject;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.IOException;
@@ -76,6 +81,10 @@ import java.util.concurrent.atomic.AtomicLong;
 public final class LoadingMessageSourceProvider
     implements MessageSourceProvider
 {
+
+    @Inject
+    private Vertx vertx;
+
     /*
      * Use daemon threads. We don't give control to the user about the
      * ExecutorService, and we don't have a reliable way to shut it down (a JVM
@@ -100,13 +109,10 @@ public final class LoadingMessageSourceProvider
 
     private static final InternalBundle BUNDLE = InternalBundle.getInstance();
 
-    private static final int NTHREADS = 3;
 
-    /*
-     * Executor service for loading tasks
-     */
-    private final ExecutorService service
-        = Executors.newFixedThreadPool(NTHREADS, THREAD_FACTORY);
+    private final ContextExecutorService contextExecutorService = new ContextExecutorService(
+            vertx==null?(vertx=Vertx.vertx()).getOrCreateContext()
+                    :vertx.getOrCreateContext());
 
     /*
      * Loader and default source
@@ -191,7 +197,7 @@ public final class LoadingMessageSourceProvider
             if (task == null) {
                 task = loadingTask(locale);
                 sources.put(locale, task);
-                service.execute(task);
+                contextExecutorService.execute(task);
             }
         }
 

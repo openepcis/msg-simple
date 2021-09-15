@@ -27,16 +27,19 @@ buildscript {
 }
 
 plugins {
-    id("net.ltgt.errorprone") version "0.8.1" apply false
+    id "maven-publish"
+    id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
 }
 
 apply(plugin: "java");
-apply(plugin: "maven");
 apply(plugin: "signing");
 apply(plugin: "biz.aQute.bnd.builder");
 apply(plugin: "idea");
 apply(plugin: "eclipse");
-apply(plugin: "net.ltgt.errorprone");
+apply(plugin: "maven-publish");
+apply(plugin: "java-library");
+apply(plugin: "io.github.gradle-nexus.publish-plugin");
+
 
 apply(from: "project.gradle");
 
@@ -69,11 +72,12 @@ repositories {
 /*
  * Add errorprone checking.
  */
+/*
 dependencies {
     errorprone("com.google.errorprone:error_prone_core:2.3.3")
     errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
 }
-
+*/
 /*
  * Necessary! Otherwise TestNG will not be used...
  *
@@ -175,7 +179,7 @@ task checkSigningRequirements {
                 "upload");
     }
 }
-
+/*
 uploadArchives {
     dependsOn(checkSigningRequirements);
     repositories {
@@ -200,10 +204,10 @@ uploadArchives {
         }
     }
 }
-
+*/
 /*
  * Configure pom.xml on install, uploadArchives
- */
+
 [
     install.repositories.mavenInstaller,
     uploadArchives.repositories.mavenDeployer
@@ -248,3 +252,28 @@ signing {
     sign configurations.archives;
 }
 
+*/
+
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        myNexus {
+            nexusUrl = uri("https://nexus.company-group.com/repository/maven-all")
+            snapshotRepositoryUrl = uri("https://nexus.company-group.com/repository/openepcis/")
+            username = "openepcis" // defaults to project.properties["myNexusUsername"]
+            password = "Ke4pai9I" // defaults to project.properties["myNexusPassword"]
+        }
+    }
+}
+
+dependencies {
+    implementation 'jakarta.inject:jakarta.inject-api:1.0'
+}

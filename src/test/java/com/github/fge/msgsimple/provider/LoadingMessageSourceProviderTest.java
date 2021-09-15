@@ -21,6 +21,8 @@ package com.github.fge.msgsimple.provider;
 
 import com.github.fge.msgsimple.InternalBundle;
 import com.github.fge.msgsimple.source.MessageSource;
+import io.vertx.junit5.VertxExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.testng.annotations.BeforeMethod;
@@ -41,6 +43,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
+@ExtendWith(VertxExtension.class)
 public final class LoadingMessageSourceProviderTest
 {
     private static final InternalBundle BUNDLE
