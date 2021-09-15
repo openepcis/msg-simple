@@ -268,8 +268,6 @@ nexusPublishing {
         myNexus {
             nexusUrl = uri("https://nexus.company-group.com/repository/maven-all")
             snapshotRepositoryUrl = uri("https://nexus.company-group.com/repository/openepcis/")
-            username = "openepcis" // defaults to project.properties["myNexusUsername"]
-            password = "Ke4pai9I" // defaults to project.properties["myNexusPassword"]
         }
     }
 }
